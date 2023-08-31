@@ -1,0 +1,30 @@
+{
+  "name": "@wirunekaewjai/astro-devtools",
+  "version": "0.0.1",
+  "keywords": [
+    "astro",
+    "node"
+  ],
+  "author": "Wirune Kaewjai",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rimraf dist && tsc && tsc-alias"
+  },
+  "dependencies": {
+    "@emotion/hash": "^0.9.1",
+    "glob": "^10.3.3",
+    "mime-types": "^2.1.35",
+    "sharp": "^0.32.5",
+    "zod": "^3.22.2"
+  },
+  "devDependencies": {
+    "@types/mime-types": "^2.1.1",
+    "@types/node": "^18.16.0",
+    "rimraf": "^5.0.1",
+    "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.7",
+    "typescript": "^5.2.2"
+  }
+}

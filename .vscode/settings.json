@@ -1,0 +1,18 @@
+{
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.format.semicolons": "insert",
+  "typescript.format.placeOpenBraceOnNewLineForControlBlocks": false,
+  "typescript.format.placeOpenBraceOnNewLineForFunctions": false,
+  "typescript.format.insertSpaceBeforeFunctionParenthesis": false,
+  "typescript.suggest.autoImports": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.quoteStyle": "single",
+  "javascript.format.semicolons": "insert",
+  "javascript.format.placeOpenBraceOnNewLineForControlBlocks": false,
+  "javascript.format.placeOpenBraceOnNewLineForFunctions": false,
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": false,
+  "javascript.suggest.autoImports": true,
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+}
