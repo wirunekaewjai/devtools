@@ -4,7 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildAssets = void 0;
+const constants_1 = require("../utils/constants");
 const create_hash_1 = require("../utils/create-hash");
+const generate_asset_util_1 = require("../utils/generate-asset-util");
 const glob_1 = require("glob");
 const mime_types_1 = __importDefault(require("mime-types"));
 const node_fs_1 = require("node:fs");
@@ -12,7 +14,6 @@ const promises_1 = require("node:fs/promises");
 const node_path_1 = require("node:path");
 const sharp_1 = __importDefault(require("sharp"));
 const zod_1 = __importDefault(require("zod"));
-const UTIL_FUNCTION_NAME = '$asset';
 const IMAGE_TRANSFORMABLE_TYPES = [
     'image/avif',
     'image/jpeg',
@@ -24,29 +25,6 @@ const querySchema = zod_1.default.object({
     w: zod_1.default.preprocess(Number, zod_1.default.number().min(16).max(4096)).optional(),
     q: zod_1.default.preprocess(Number, zod_1.default.number().min(10).max(100)).optional(),
 });
-function stringifyObject(config, map) {
-    const quote = config.singleQuotes ? "'" : '"';
-    return Object.entries(map).map(([key, value]) => {
-        return `${config.indent}${quote}${key}${quote}: ${quote}${value}${quote},`;
-    }).join('\n');
-}
-async function createAssetUtil(config, map) {
-    const semicolons = config.semicolons ? ';' : '';
-    const assetUtilCode = [
-        `const map = {`,
-        stringifyObject(config, map),
-        `}${semicolons}`,
-        '',
-        `export function ${UTIL_FUNCTION_NAME}(assetPath: keyof typeof map): string {`,
-        `${config.indent}return map[assetPath]${semicolons}`,
-        `}`,
-    ].join('\n');
-    const assetUtilDir = node_path_1.posix.dirname(config.assetUtilPath);
-    await (0, promises_1.mkdir)(assetUtilDir, {
-        recursive: true,
-    });
-    await (0, promises_1.writeFile)(config.assetUtilPath, assetUtilCode, 'utf8');
-}
 async function resolveAsset(config, map, assetPath, assetData) {
     const [absolutePath] = assetPath.split('?');
     const assetHash = await (0, create_hash_1.createHash)(assetData);
@@ -74,14 +52,14 @@ async function collectAssets(config) {
         posix: true,
         nodir: true,
     });
-    const regex1 = `\\${UTIL_FUNCTION_NAME}\\(\\'\\/[^'\\n\\t]+\\'\\)`;
-    const regex2 = `\\${UTIL_FUNCTION_NAME}\\(\\"\\/[^"\\n\\t]+\\"\\)`;
+    const regex1 = `\\${constants_1.UTIL_FUNCTION_NAME}\\(\\'\\/[^'\\n\\t]+\\'\\)`;
+    const regex2 = `\\${constants_1.UTIL_FUNCTION_NAME}\\(\\"\\/[^"\\n\\t]+\\"\\)`;
     const regex = new RegExp(`(${regex1})|(${regex2})`, 'g');
     const assetPaths = [];
     for (const filePath of filePaths) {
         const fileText = await (0, promises_1.readFile)(filePath, 'utf8');
         fileText.replace(regex, (text) => {
-            assetPaths.push(text.slice(UTIL_FUNCTION_NAME.length + 2, -2));
+            assetPaths.push(text.slice(constants_1.UTIL_FUNCTION_NAME.length + 2, -2));
             return text;
         });
     }
@@ -133,7 +111,7 @@ async function collectAssets(config) {
 }
 async function buildAssets(config) {
     const { map, outPaths } = await collectAssets(config);
-    await createAssetUtil(config, map);
+    await (0, generate_asset_util_1.generateAssetUtil)(config, map);
     const previous = await (0, glob_1.glob)(node_path_1.posix.join(config.assetOutDir, '**/*'), {
         posix: true,
         nodir: true,
