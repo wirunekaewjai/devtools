@@ -1,9 +1,10 @@
 {
-  "name": "@wirunekaewjai/astro-devtools",
+  "name": "@wirunekaewjai/devtools",
   "version": "0.0.1",
   "keywords": [
     "astro",
-    "node"
+    "node",
+    "typescript"
   ],
   "author": "Wirune Kaewjai",
   "license": "MIT",
