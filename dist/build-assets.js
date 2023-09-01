@@ -26,6 +26,7 @@ const configSchema = zod_1.default.object({
     assetPublicDir: zod_1.default.string().nonempty(),
     assetUtilPath: zod_1.default.string().nonempty(),
     codeDir: zod_1.default.string().nonempty(),
+    codeExts: zod_1.default.string().nonempty().array().min(1),
     indent: zod_1.default.string().nonempty().optional().default('  '),
     semicolons: zod_1.default.boolean().optional().default(true),
     singleQuotes: zod_1.default.boolean().optional().default(true),
@@ -78,10 +79,9 @@ async function resolveAsset(config, map, assetPath, assetData) {
 async function collectAssets(config) {
     const map = {};
     const outPaths = [];
-    const filePaths = await (0, glob_1.glob)([
-        node_path_1.posix.join(config.codeDir, '**/*.tsx'),
-        node_path_1.posix.join(config.codeDir, '**/*.ts'),
-    ], {
+    const filePaths = await (0, glob_1.glob)(config.codeExts.map((ext) => {
+        return node_path_1.posix.join(config.codeDir, `**/*${ext}`);
+    }), {
         posix: true,
         nodir: true,
     });

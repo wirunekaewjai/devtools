@@ -5,6 +5,7 @@ declare const configSchema: z.ZodObject<{
     assetPublicDir: z.ZodString;
     assetUtilPath: z.ZodString;
     codeDir: z.ZodString;
+    codeExts: z.ZodArray<z.ZodString, "many">;
     indent: z.ZodDefault<z.ZodOptional<z.ZodString>>;
     semicolons: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
     singleQuotes: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
@@ -14,6 +15,7 @@ declare const configSchema: z.ZodObject<{
     assetPublicDir: string;
     assetUtilPath: string;
     codeDir: string;
+    codeExts: string[];
     indent: string;
     semicolons: boolean;
     singleQuotes: boolean;
@@ -23,6 +25,7 @@ declare const configSchema: z.ZodObject<{
     assetPublicDir: string;
     assetUtilPath: string;
     codeDir: string;
+    codeExts: string[];
     indent?: string | undefined;
     semicolons?: boolean | undefined;
     singleQuotes?: boolean | undefined;

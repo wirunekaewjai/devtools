@@ -26,6 +26,7 @@ const configSchema = z.object({
   assetUtilPath: z.string().nonempty(),
 
   codeDir: z.string().nonempty(),
+  codeExts: z.string().nonempty().array().min(1),
 
   indent: z.string().nonempty().optional().default('  '),
   semicolons: z.boolean().optional().default(true),
@@ -96,10 +97,9 @@ async function collectAssets(config: Config) {
   const map: Record<string, string> = {};
   const outPaths: string[] = [];
 
-  const filePaths = await glob([
-    posix.join(config.codeDir, '**/*.tsx'),
-    posix.join(config.codeDir, '**/*.ts'),
-  ], {
+  const filePaths = await glob(config.codeExts.map((ext) => {
+    return posix.join(config.codeDir, `**/*${ext}`);
+  }), {
     posix: true,
     nodir: true,
   });
