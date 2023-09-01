@@ -3,8 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.buildAssets = void 0;
+exports.buildAndWatchAssets = void 0;
 const create_hash_1 = require("./utils/create-hash");
+const create_watcher_1 = require("./utils/create-watcher");
 const glob_1 = require("glob");
 const mime_types_1 = __importDefault(require("mime-types"));
 const node_fs_1 = require("node:fs");
@@ -142,20 +143,29 @@ async function collectAssets(config) {
         outPaths,
     };
 }
-async function buildAssets(configInput) {
+async function buildAndWatchAssets(configInput) {
     const config = configSchema.parse(configInput);
-    const { map, outPaths } = await collectAssets(config);
-    await createAssetUtil(config, map);
-    const previous = await (0, glob_1.glob)(node_path_1.posix.join(config.assetOutDir, '**/*'), {
-        posix: true,
-        nodir: true,
+    await (0, create_watcher_1.createWatcher)({
+        ignore: [
+            node_path_1.posix.join(config.assetOutDir, '**/*'),
+            config.assetUtilPath,
+        ],
+        pattern: node_path_1.posix.join(config.codeDir, '**/*'),
+        script: async () => {
+            const { map, outPaths } = await collectAssets(config);
+            await createAssetUtil(config, map);
+            const previous = await (0, glob_1.glob)(node_path_1.posix.join(config.assetOutDir, '**/*'), {
+                posix: true,
+                nodir: true,
+            });
+            for (const previousPath of previous) {
+                if (outPaths.includes(previousPath)) {
+                    continue;
+                }
+                await (0, promises_1.rm)(previousPath);
+                // console.log('> delete', previousPath);
+            }
+        },
     });
-    for (const previousPath of previous) {
-        if (outPaths.includes(previousPath)) {
-            continue;
-        }
-        await (0, promises_1.rm)(previousPath);
-        // console.log('> delete', previousPath);
-    }
 }
-exports.buildAssets = buildAssets;
+exports.buildAndWatchAssets = buildAndWatchAssets;

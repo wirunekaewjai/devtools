@@ -16,12 +16,14 @@
     "@emotion/hash": "^0.9.1",
     "glob": "^10.3.3",
     "mime-types": "^2.1.35",
+    "nodemon": "^3.0.1",
     "sharp": "^0.32.5",
     "zod": "^3.22.2"
   },
   "devDependencies": {
     "@types/mime-types": "^2.1.1",
     "@types/node": "^18.16.0",
+    "@types/nodemon": "^1.19.2",
     "rimraf": "^5.0.1",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.8.7",

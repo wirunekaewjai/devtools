@@ -1,4 +1,5 @@
 import { createHash } from '@/src/utils/create-hash';
+import { createWatcher } from '@/src/utils/create-watcher';
 import { glob } from 'glob';
 import mime from 'mime-types';
 import { existsSync } from 'node:fs';
@@ -182,23 +183,32 @@ async function collectAssets(config: Config) {
   };
 }
 
-export async function buildAssets(configInput: z.input<typeof configSchema>) {
+export async function buildAndWatchAssets(configInput: z.input<typeof configSchema>) {
   const config: Config = configSchema.parse(configInput);
-  const { map, outPaths } = await collectAssets(config);
 
-  await createAssetUtil(config, map);
+  await createWatcher({
+    ignore: [
+      posix.join(config.assetOutDir, '**/*'),
+      config.assetUtilPath,
+    ],
+    pattern: posix.join(config.codeDir, '**/*'),
+    script: async () => {
+      const { map, outPaths } = await collectAssets(config);
+      await createAssetUtil(config, map);
 
-  const previous = await glob(posix.join(config.assetOutDir, '**/*'), {
-    posix: true,
-    nodir: true,
+      const previous = await glob(posix.join(config.assetOutDir, '**/*'), {
+        posix: true,
+        nodir: true,
+      });
+
+      for (const previousPath of previous) {
+        if (outPaths.includes(previousPath)) {
+          continue;
+        }
+
+        await rm(previousPath);
+        // console.log('> delete', previousPath);
+      }
+    },
   });
-
-  for (const previousPath of previous) {
-    if (outPaths.includes(previousPath)) {
-      continue;
-    }
-
-    await rm(previousPath);
-    // console.log('> delete', previousPath);
-  }
 }
