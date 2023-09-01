@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createConfig = void 0;
 const zod_1 = __importDefault(require("zod"));
 const configSchema = zod_1.default.object({
-    assetDir: zod_1.default.string().nonempty().or(zod_1.default.string().nonempty().array().min(1)),
     assetOutDir: zod_1.default.string().nonempty(),
     assetPublicDir: zod_1.default.string().nonempty(),
     assetUtilPath: zod_1.default.string().nonempty(),

@@ -1,6 +1,5 @@
 import z from 'zod';
 declare const configSchema: z.ZodObject<{
-    assetDir: z.ZodUnion<[z.ZodString, z.ZodArray<z.ZodString, "many">]>;
     assetOutDir: z.ZodString;
     assetPublicDir: z.ZodString;
     assetUtilPath: z.ZodString;
@@ -10,7 +9,6 @@ declare const configSchema: z.ZodObject<{
     semicolons: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
     singleQuotes: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
 }, "strip", z.ZodTypeAny, {
-    assetDir: (string | string[]) & (string | string[] | undefined);
     assetOutDir: string;
     assetPublicDir: string;
     assetUtilPath: string;
@@ -20,7 +18,6 @@ declare const configSchema: z.ZodObject<{
     semicolons: boolean;
     singleQuotes: boolean;
 }, {
-    assetDir: (string | string[]) & (string | string[] | undefined);
     assetOutDir: string;
     assetPublicDir: string;
     assetUtilPath: string;

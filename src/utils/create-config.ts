@@ -1,9 +1,6 @@
 import z from 'zod';
 
 const configSchema = z.object({
-  assetDir: z.string().nonempty().or(
-    z.string().nonempty().array().min(1)
-  ),
   assetOutDir: z.string().nonempty(),
   assetPublicDir: z.string().nonempty(),
   assetUtilPath: z.string().nonempty(),
