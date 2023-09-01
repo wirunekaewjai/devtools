@@ -1,5 +1,7 @@
+import { UTIL_FUNCTION_NAME } from '@/src/utils/constants';
 import { Config } from '@/src/utils/create-config';
 import { createHash } from '@/src/utils/create-hash';
+import { generateAssetUtil } from '@/src/utils/generate-asset-util';
 import { glob } from 'glob';
 import mime from 'mime-types';
 import { existsSync } from 'node:fs';
@@ -7,8 +9,6 @@ import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { posix } from 'node:path';
 import sharp from 'sharp';
 import z from 'zod';
-
-const UTIL_FUNCTION_NAME = '$asset';
 
 const IMAGE_TRANSFORMABLE_TYPES = [
   'image/avif',
@@ -22,34 +22,6 @@ const querySchema = z.object({
   w: z.preprocess(Number, z.number().min(16).max(4096)).optional(),
   q: z.preprocess(Number, z.number().min(10).max(100)).optional(),
 });
-
-function stringifyObject(config: Config, map: Record<string, string>) {
-  const quote = config.singleQuotes ? "'" : '"';
-  return Object.entries(map).map(([key, value]) => {
-    return `${config.indent}${quote}${key}${quote}: ${quote}${value}${quote},`;
-  }).join('\n');
-}
-
-async function createAssetUtil(config: Config, map: Record<string, string>) {
-  const semicolons = config.semicolons ? ';' : '';
-  const assetUtilCode = [
-    `const map = {`,
-       stringifyObject(config, map),
-    `}${semicolons}`,
-    '',
-    `export function ${UTIL_FUNCTION_NAME}(assetPath: keyof typeof map): string {`,
-    `${config.indent}return map[assetPath]${semicolons}`,
-    `}`,
-  ].join('\n');
-
-  const assetUtilDir = posix.dirname(config.assetUtilPath);
-
-  await mkdir(assetUtilDir, {
-    recursive: true,
-  });
-
-  await writeFile(config.assetUtilPath, assetUtilCode, 'utf8');
-}
 
 async function resolveAsset(config: Config, map: Record<string, string>, assetPath: string, assetData: Buffer) {
   const [absolutePath] = assetPath.split('?');
@@ -168,7 +140,7 @@ async function collectAssets(config: Config) {
 export async function buildAssets(config: Config) {
   const { map, outPaths } = await collectAssets(config);
 
-  await createAssetUtil(config, map);
+  await generateAssetUtil(config, map);
 
   const previous = await glob(posix.join(config.assetOutDir, '**/*'), {
     posix: true,
