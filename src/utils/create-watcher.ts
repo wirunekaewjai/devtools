@@ -1,40 +1,28 @@
 import { createHashFromFile } from '@/src/utils/create-hash';
 import { glob } from 'glob';
-import nodemon from 'nodemon';
 import z from 'zod';
 
 const configSchema = z.object({
+  action: z.function(),
   interval: z.number().positive().optional().default(1000),
   ignore: z.string().nonempty().array().optional().default([]),
   pattern: z.string().nonempty().or(z.string().nonempty().array().min(1)),
-  script: z.string().nonempty().or(z.function()),
 });
 
-export async function createWatcher(configInput: z.input<typeof configSchema>) {
+export type Unsubscribe = () => void;
+
+export function createWatcher(configInput: z.input<typeof configSchema>): Unsubscribe {
   const config = configSchema.parse(configInput);
   const hashmap: Record<string, string> = {};
 
-  let server: typeof nodemon | null = null;
-
-  function start(script: string) {
-    if (server) {
-      return server.restart();
-    }
-  
-    server = nodemon({
-      script,
-      stdout: true,
-    });
-  
-    server.once('crash', () => {
-      process.exit();
-    });
-  }
-  
-  let isInitialized = false;
+  let isRunning = true;
   let previousFilePaths: string[] = [];
 
   async function compare() {
+    if (!isRunning) {
+      return;
+    }
+
     const filePaths = await glob(config.pattern, {
       ignore: config.ignore,
       posix: true,
@@ -94,25 +82,24 @@ export async function createWatcher(configInput: z.input<typeof configSchema>) {
 
     previousFilePaths = filePaths;
 
+    if (!isRunning) {
+      return;
+    }
+
     if (isChanged) {
-      if (typeof config.script === 'string') {
-        if (isInitialized) {
-          console.log();
-          console.log('> restarting...');
-          console.log();
-        } else {
-          isInitialized = true;
-        }
-  
-        start(config.script);
-      } else {
-        await config.script();
-      }
+      await config.action();
+    }
+
+    if (!isRunning) {
+      return;
     }
 
     await new Promise((resolve) => setTimeout(resolve, config.interval));
     await compare();
   }
 
-  await compare();
+  compare();
+  return () => {
+    isRunning = false;
+  };
 }

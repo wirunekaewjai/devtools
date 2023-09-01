@@ -6,33 +6,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createWatcher = void 0;
 const create_hash_1 = require("../utils/create-hash");
 const glob_1 = require("glob");
-const nodemon_1 = __importDefault(require("nodemon"));
 const zod_1 = __importDefault(require("zod"));
 const configSchema = zod_1.default.object({
+    action: zod_1.default.function(),
     interval: zod_1.default.number().positive().optional().default(1000),
     ignore: zod_1.default.string().nonempty().array().optional().default([]),
     pattern: zod_1.default.string().nonempty().or(zod_1.default.string().nonempty().array().min(1)),
-    script: zod_1.default.string().nonempty().or(zod_1.default.function()),
 });
-async function createWatcher(configInput) {
+function createWatcher(configInput) {
     const config = configSchema.parse(configInput);
     const hashmap = {};
-    let server = null;
-    function start(script) {
-        if (server) {
-            return server.restart();
-        }
-        server = (0, nodemon_1.default)({
-            script,
-            stdout: true,
-        });
-        server.once('crash', () => {
-            process.exit();
-        });
-    }
-    let isInitialized = false;
+    let isRunning = true;
     let previousFilePaths = [];
     async function compare() {
+        if (!isRunning) {
+            return;
+        }
         const filePaths = await (0, glob_1.glob)(config.pattern, {
             ignore: config.ignore,
             posix: true,
@@ -79,25 +68,21 @@ async function createWatcher(configInput) {
             isChanged = updates.length > 0;
         }
         previousFilePaths = filePaths;
+        if (!isRunning) {
+            return;
+        }
         if (isChanged) {
-            if (typeof config.script === 'string') {
-                if (isInitialized) {
-                    console.log();
-                    console.log('> restarting...');
-                    console.log();
-                }
-                else {
-                    isInitialized = true;
-                }
-                start(config.script);
-            }
-            else {
-                await config.script();
-            }
+            await config.action();
+        }
+        if (!isRunning) {
+            return;
         }
         await new Promise((resolve) => setTimeout(resolve, config.interval));
         await compare();
     }
-    await compare();
+    compare();
+    return () => {
+        isRunning = false;
+    };
 }
 exports.createWatcher = createWatcher;
