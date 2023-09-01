@@ -38,7 +38,7 @@ const querySchema = zod_1.default.object({
 function stringifyObject(config, map) {
     const quote = config.singleQuotes ? "'" : '"';
     return Object.entries(map).map(([key, value]) => {
-        return `${config.indent}${quote}${key}${quote}: ${quote}${value}${quote}`;
+        return `${config.indent}${quote}${key}${quote}: ${quote}${value}${quote},`;
     }).join('\n');
 }
 async function createAssetUtil(config, map) {
