@@ -1,0 +1,15 @@
+export declare const APP_FILE_NAME = "app.js";
+export declare const APP_DEPENDENCY_DIR = "dependencies";
+export declare const APP_TEMPLATE_DIR = "templates";
+export declare const BUILD_ROUTE_DIR = "routes";
+export declare const BUILD_SCRIPT_DIR = "scripts";
+export declare const BUILD_STATIC_DIR = "static";
+export declare const BUILD_TEMP_DIR = "temp";
+export declare const CLIENT_RESERVED_NAME = "SCRIPT";
+export declare const CLIENT_EXTENSION = ".client.ts";
+export declare const CLIENT_SCRIPT_INJECTION_TARGET = "head";
+export declare const SERVER_RESERVED_NAMES: string[];
+export declare const VERCEL_STATIC_DIR = "static";
+export declare const VERCEL_SERVERLESS_DIR = "functions";
+export declare const VERCEL_SERVERLESS_NAME = "index.func";
+export declare const VERCEL_OUTPUT_DIR = ".vercel/output";
