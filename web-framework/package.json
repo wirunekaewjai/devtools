@@ -1,29 +1,13 @@
 {
-  "name": "@wirunekaewjai/devtools",
-  "version": "0.1.26",
+  "name": "@wirunekaewjai/web-framework",
+  "version": "0.1.0",
   "keywords": [
     "node"
   ],
   "author": "Wirune Kaewjai",
   "license": "MIT",
-  "exports": {
-    "./html": {
-      "default": "./dist/html/index.js",
-      "types": "./dist/html/index.d.ts"
-    },
-    "./jsx/jsx-dev-runtime": {
-      "default": "./dist/jsx/jsx-dev-runtime.js",
-      "types": "./dist/jsx/jsx-dev-runtime.d.ts"
-    },
-    "./jsx/jsx-runtime": {
-      "default": "./dist/jsx/jsx-runtime.js",
-      "types": "./dist/jsx/jsx-runtime.d.ts"
-    },
-    "./web-framework": {
-      "default": "./dist/web-framework/index.js",
-      "types": "./dist/web-framework/index.d.ts"
-    }
-  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc"
   },

@@ -1,0 +1,27 @@
+{
+  "name": "@wirunekaewjai/jsx",
+  "version": "0.1.0",
+  "keywords": [
+    "node",
+    "jsx"
+  ],
+  "author": "Wirune Kaewjai",
+  "license": "MIT",
+  "exports": {
+    "./jsx-dev-runtime": {
+      "default": "./dist/jsx-dev-runtime.js",
+      "types": "./dist/jsx-dev-runtime.d.ts"
+    },
+    "./jsx-runtime": {
+      "default": "./dist/jsx-runtime.js",
+      "types": "./dist/jsx-runtime.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.1",
+    "typescript": "^5.2.2"
+  }
+}

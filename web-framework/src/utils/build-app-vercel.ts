@@ -12,7 +12,7 @@ import { BuildInfo, RouteInfo } from "../types";
 import { buildAppDeps } from "./build-app-deps";
 
 export async function buildAppVercel(info: BuildInfo, routeInfos: RouteInfo[]) {
-  const cwd = path.join(path.resolve(__dirname), "../../..");
+  const cwd = path.join(path.resolve(__dirname), "../..");
   const tempDir = posix.join(cwd, `.tmp_${Date.now()}`);
 
   const serverDir = posix.join(

@@ -1,0 +1,19 @@
+{
+  "name": "@wirunekaewjai/html",
+  "version": "0.1.0",
+  "keywords": [
+    "node",
+    "html"
+  ],
+  "author": "Wirune Kaewjai",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "rimraf dist && tsc"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.1",
+    "typescript": "^5.2.2"
+  }
+}

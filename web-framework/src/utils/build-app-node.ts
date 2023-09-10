@@ -16,7 +16,7 @@ export async function buildAppNode(
 ) {
   const isProd = info.env === Environment.PRODUCTION;
 
-  const cwd = path.join(path.resolve(__dirname), "../../..");
+  const cwd = path.join(path.resolve(__dirname), "../..");
 
   const buildDir = config.buildDir;
   const tempDir = posix.join(cwd, `.tmp_${Date.now()}`);
