@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "strict": true,
+    "module": "Node16"
+  },
+  "include": [
+    "**/*.js"
+  ]
+}
