@@ -8,7 +8,7 @@ const tailwindSchema = z.object({
 const configSchema = z.object({
   assetPrefix: z.string().nonempty().optional(),
   externals: z.string().nonempty().array().optional().default([]),
-  buildDir: z.string().optional().default(".reactr"),
+  buildDir: z.string().optional().default("dist"),
   routeDir: z.string().optional().default("src/routes"),
   tailwind: tailwindSchema.array().optional().default([]),
   tsconfig: z.string().optional().default("tsconfig.json"),

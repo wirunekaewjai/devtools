@@ -1,4 +1,4 @@
-type Child = string | number | boolean | null | undefined;
+import { JSXChildren } from "./types";
 
 const ROOT_TAGS = new Set([
   "html"
@@ -23,7 +23,7 @@ const SELF_CLOSING_TAGS = new Set([
   "wbr"
 ]);
 
-function renderChildren(children: Child | Child[]): string {
+function renderChildren(children: JSXChildren): string {
   if (Array.isArray(children)) {
     return children.map(renderChildren).join("");
   } else if (typeof children === "string" || typeof children === "number" || typeof children === "boolean") {

@@ -96,6 +96,11 @@ export type EventAttributes = {};
 export type CustomAttributes = {
     [key: string]: string | number | boolean;
 };
+export type JSXChild = string | number | boolean | null | undefined;
+export type JSXChildren = JSXChild | JSXChild[];
+export type JSXComponent<T> = T & {
+    children?: JSXChildren;
+};
 export declare namespace JSX {
     type Element = string;
     interface IntrinsicElements {
@@ -164,6 +169,7 @@ export declare namespace JSX {
         label: HtmlAttributes & EventAttributes & CustomAttributes;
         legend: HtmlAttributes & EventAttributes & CustomAttributes;
         li: HtmlAttributes & EventAttributes & CustomAttributes;
+        main: HtmlAttributes & EventAttributes & CustomAttributes;
         map: HtmlAttributes & EventAttributes & CustomAttributes;
         mark: HtmlAttributes & EventAttributes & CustomAttributes;
         menu: HtmlAttributes & EventAttributes & CustomAttributes;

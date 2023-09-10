@@ -9,11 +9,10 @@ import { startHttpServer } from "./dependencies/start-http-server";
 
 dotenv.config();
 
-const AUTO_REFRESH_SCRIPT =
-`<script>
+const AUTO_REFRESH_SCRIPT = `<script>
 async function onTick() {
   try {
-    const res = await fetch('/___AUTO_REFRESH___?v=${env.id}');
+    const res = await fetch("/___AUTO_REFRESH___?v=${env.id}");
     
     if (res.ok) {
       window.location.reload();
@@ -24,7 +23,7 @@ async function onTick() {
   setTimeout(onTick, 500);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   setTimeout(onTick, 500);
 });
 </script>`;
@@ -53,10 +52,10 @@ createStaticRoute(router);
 createDynamicRoutes(router, async (res) => {
   const { headers, status, statusText } = res;
 
-  if (headers.get('Content-Type') === 'text/html') {
+  if (headers?.get("Content-Type") === "text/html") {
     let text = await res.text();
 
-    text = text.replace('</head>', `${AUTO_REFRESH_SCRIPT}</head>`);
+    text = text.replace("</head>", `${AUTO_REFRESH_SCRIPT}</head>`);
 
     return new Response(text, {
       headers: Object.fromEntries(headers.entries()),

@@ -9,7 +9,7 @@ const tailwindSchema = zod_1.z.object({
 const configSchema = zod_1.z.object({
     assetPrefix: zod_1.z.string().nonempty().optional(),
     externals: zod_1.z.string().nonempty().array().optional().default([]),
-    buildDir: zod_1.z.string().optional().default(".reactr"),
+    buildDir: zod_1.z.string().optional().default("dist"),
     routeDir: zod_1.z.string().optional().default("src/routes"),
     tailwind: tailwindSchema.array().optional().default([]),
     tsconfig: zod_1.z.string().optional().default("tsconfig.json"),
