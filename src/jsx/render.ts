@@ -1,3 +1,5 @@
+type Child = string | number | boolean | null | undefined;
+
 const ROOT_TAGS = new Set([
   "html"
 ]);
@@ -21,13 +23,7 @@ const SELF_CLOSING_TAGS = new Set([
   "wbr"
 ]);
 
-/** @typedef {string | number | boolean | null | undefined} Child */
-
-/**
- * @param {Child | Child[]} children
- * @returns {string}
- */
-function renderChildren(children) {
+function renderChildren(children: Child | Child[]): string {
   if (Array.isArray(children)) {
     return children.map(renderChildren).join("");
   } else if (typeof children === "string" || typeof children === "number" || typeof children === "boolean") {
@@ -37,12 +33,8 @@ function renderChildren(children) {
   return "";
 }
 
-/**
- * @param {{ [x: string]: any; }} attrs
- */
-function renderAttrs(attrs) {
-  /** @type {string[]} */
-  const entries = [];
+function renderAttrs(attrs: Record<string, any>) {
+  const entries: string[] = [];
 
   for (const key in attrs) {
     const value = attrs[key];
@@ -61,13 +53,7 @@ function renderAttrs(attrs) {
   return "";
 }
 
-/**
- * @param {Function | string | undefined} type 
- * @param {Record<string, any>} props
- * @returns {string}
- */
-function render(type, props) {
-  console.log(type, props);
+export function render(type: Function | string | undefined, props: Record<string, any>) {
   if (typeof type === "function") {
     return type(props ?? {});
   }
@@ -75,8 +61,7 @@ function render(type, props) {
   const { children, ...attrs } = props;
 
   if (typeof type === "string") {
-    /** @type {string[]} */
-    const texts = [];
+    const texts: string[] = [];
 
     if (ROOT_TAGS.has(type)) {
       texts.push("<!DOCTYPE html>");
@@ -93,10 +78,3 @@ function render(type, props) {
 
   return renderChildren(children);
 }
-
-Object.defineProperty(exports, "__esModule", { value: true });
-
-module.exports.jsx = render;
-module.exports.jsxs = render;
-module.exports.jsxDEV = render;
-module.exports.default = Object.assign({}, module.exports);

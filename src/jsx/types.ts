@@ -217,7 +217,3 @@ export declare namespace JSX {
     ul: HtmlAttributes & EventAttributes & CustomAttributes;
   }
 }
-
-export function jsx(type: Function | string | undefined, props: Record<string, any>): JSX.Element;
-export function jsxs(type: Function | string | undefined, props: Record<string, any>): JSX.Element;
-export function jsxDEV(type: Function | string | undefined, props: Record<string, any>): JSX.Element;

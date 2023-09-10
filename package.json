@@ -1,18 +1,27 @@
 {
   "name": "@wirunekaewjai/devtools",
-  "version": "0.1.9",
+  "version": "0.1.17",
   "keywords": [
     "node"
   ],
   "author": "Wirune Kaewjai",
   "license": "MIT",
   "exports": {
+    "./jsx/jsx-dev-runtime": {
+      "default": "./dist/jsx/jsx-dev-runtime.js",
+      "types": "./dist/jsx/jsx-dev-runtime.d.ts"
+    },
     "./jsx/jsx-runtime": {
-      "default": "./jsx/jsx-runtime.js",
-      "types": "./jsx/jsx-runtime.d.ts"
+      "default": "./dist/jsx/jsx-runtime.js",
+      "types": "./dist/jsx/jsx-runtime.d.ts"
     }
   },
+  "scripts": {
+    "build": "rimraf dist && tsc"
+  },
   "devDependencies": {
-    "@types/node": "^18.16.0"
+    "@types/node": "^18.16.0",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.2.2"
   }
 }
