@@ -99,7 +99,9 @@ type DynamicAttributes = {
 
 type Child = string | number | boolean;
 
-const ROOT_TAGS = new Set(["html"]);
+const ROOT_TAGS = new Set([
+  "html",
+]);
 
 const SELF_CLOSING_TAGS = new Set([
   "area",
@@ -120,12 +122,19 @@ const SELF_CLOSING_TAGS = new Set([
   "wbr",
 ]);
 
+const ATTR_KEY_MAP: Record<string, string> = {
+  accept_charset: "accept-charset",
+  http_equiv: "http-equiv",
+};
+
 function parseAttrs(attrs: DynamicAttributes | Child | undefined) {
   const tokens: string[] = [];
 
   if (attrs && typeof attrs === "object") {
-    for (const key in attrs) {
-      const value = attrs[key];
+    for (const rawKey in attrs) {
+      const key = ATTR_KEY_MAP[rawKey] ?? rawKey;
+      const value = attrs[rawKey];
+
       tokens.push(`${key}="${value}"`);
     }
   }

@@ -3,7 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.form = exports.footer = exports.figure = exports.figcaption = exports.fieldset = exports.eventsource = exports.em = exports.dt = exports.dl = exports.div = exports.dialog = exports.dfn = exports.details = exports.del = exports.dd = exports.datalist = exports.datagrid = exports.colgroup = exports.code = exports.cite = exports.caption = exports.canvas = exports.button = exports.body = exports.blockquote = exports.bdo = exports.b = exports.audio = exports.aside = exports.address = exports.abbr = exports.a = exports.wbr = exports.track = exports.source = exports.param = exports.meta = exports.link = exports.keygen = exports.input = exports.img = exports.hr = exports.embed = exports.command = exports.col = exports.br = exports.base = exports.area = exports.html = exports.h = void 0;
 exports.th = exports.tfoot = exports.textarea = exports.td = exports.tbody = exports.table = exports.sup = exports.sub = exports.style = exports.strong = exports.span = exports.small = exports.select = exports.section = exports.script = exports.samp = exports.s = exports.ruby = exports.rp = exports.q = exports.progress = exports.pre = exports.p = exports.output = exports.option = exports.optgroup = exports.ol = exports.object = exports.noscript = exports.nav = exports.meter = exports.menu = exports.mark = exports.map = exports.li = exports.legend = exports.label = exports.kbd = exports.ins = exports.iframe = exports.i = exports.hgroup = exports.header = exports.head = exports.h6 = exports.h5 = exports.h4 = exports.h3 = exports.h2 = exports.h1 = void 0;
 exports.ul = exports.u = exports.tr = exports.title = exports.time = exports.thead = void 0;
-const ROOT_TAGS = new Set(["html"]);
+const ROOT_TAGS = new Set([
+    "html",
+]);
 const SELF_CLOSING_TAGS = new Set([
     "area",
     "base",
@@ -22,11 +24,16 @@ const SELF_CLOSING_TAGS = new Set([
     "track",
     "wbr",
 ]);
+const ATTR_KEY_MAP = {
+    accept_charset: "accept-charset",
+    http_equiv: "http-equiv",
+};
 function parseAttrs(attrs) {
     const tokens = [];
     if (attrs && typeof attrs === "object") {
-        for (const key in attrs) {
-            const value = attrs[key];
+        for (const rawKey in attrs) {
+            const key = ATTR_KEY_MAP[rawKey] ?? rawKey;
+            const value = attrs[rawKey];
             tokens.push(`${key}="${value}"`);
         }
     }

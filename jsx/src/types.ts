@@ -1,6 +1,6 @@
 export type HtmlAttributes = Partial<{
   accept: string;
-  accept_charset: string;
+  "accept-charset": string;
   accesskey: string;
   action: string;
   alt: string;
@@ -37,7 +37,7 @@ export type HtmlAttributes = Partial<{
   high: string;
   href: string;
   hreflang: string;
-  http_equiv: string;
+  "http-equiv": string;
   id: string;
   ismap: string;
   kind: string;
@@ -98,14 +98,13 @@ export type EventAttributes = {
 }
 
 export type CustomAttributes = {
-  [key: string]: string | number | boolean;
+  [key: string]: string | number | boolean | undefined;
 };
 
 export type JSXChild = string | number | boolean | null | undefined;
-export type JSXChildren = JSXChild | JSXChild[];
-export type JSXComponent<T> = T & {
-  children?: JSXChildren;
-};
+export type JSXChildren = JSXChild | JSXChild[] | undefined;
+export type JSXProps<T> = T & { children?: JSXChildren };
+export type JSXComponent<T> = (props: JSXProps<T>) => string;
 
 export declare namespace JSX {
   type Element = string;
