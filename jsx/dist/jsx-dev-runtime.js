@@ -14,7 +14,8 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jsxDEV = void 0;
+exports.Fragment = exports.jsxDEV = void 0;
 const render_1 = require("./render");
 __exportStar(require("./types"), exports);
 exports.jsxDEV = render_1.render;
+exports.Fragment = render_1.renderFragment;

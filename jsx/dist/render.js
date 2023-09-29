@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.render = void 0;
+exports.renderFragment = exports.render = void 0;
 const ROOT_TAGS = new Set([
     "html"
 ]);
@@ -64,3 +64,10 @@ function render(type, props) {
     return renderChildren(children);
 }
 exports.render = render;
+function renderFragment(props) {
+    if (props) {
+        return renderChildren(props.children);
+    }
+    return "";
+}
+exports.renderFragment = renderFragment;

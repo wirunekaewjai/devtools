@@ -78,3 +78,11 @@ export function render(type: Function | string | undefined, props: Record<string
 
   return renderChildren(children);
 }
+
+export function renderFragment(props: Record<string, any>) {
+  if (props) {
+    return renderChildren(props.children);
+  }
+
+  return "";
+}
