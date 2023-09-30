@@ -1,0 +1,35 @@
+{
+  "name": "esm-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "engines": {
+    "node": "20"
+  },
+  "scripts": {
+    "dev": "nodemon --watch src --watch public -e mjs,css src/script/dev.mjs",
+    "build": "node src/script/build.mjs",
+    "start": "node src/server/app.mjs",
+    "deploy": "node src/script/deploy.mjs"
+  },
+  "author": "Wirune Kaewjai",
+  "license": "MIT",
+  "dependencies": {
+    "@whatwg-node/server": "^0.9.14",
+    "dotenv": "^16.3.1",
+    "itty-router": "^4.0.23",
+    "sharp": "^0.32.6"
+  },
+  "devDependencies": {
+    "@emotion/hash": "^0.9.1",
+    "@types/node": "^18.16.0",
+    "autoprefixer": "^10.4.16",
+    "cssnano": "^6.0.1",
+    "execa": "^8.0.1",
+    "glob": "^10.3.10",
+    "nodemon": "^3.0.1",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.3"
+  }
+}
