@@ -211,5 +211,6 @@ export declare namespace JSX {
         tr: HtmlAttributes & EventAttributes & CustomAttributes;
         u: HtmlAttributes & EventAttributes & CustomAttributes;
         ul: HtmlAttributes & EventAttributes & CustomAttributes;
+        [other: string]: HtmlAttributes & EventAttributes & CustomAttributes;
     }
 }
