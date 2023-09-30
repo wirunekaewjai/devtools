@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "esModuleInterop": true,
+    "strict": true,
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@wirunekaewjai/jsx"
+  },
+  "include": [
+    "src/server/**/*.ts",
+    "src/server/**/*.tsx"
+  ]
+}

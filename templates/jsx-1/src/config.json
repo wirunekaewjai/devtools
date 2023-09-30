@@ -1,0 +1,6 @@
+{
+  "DIST_DIR": "dist",
+  "PUBLIC_DIR": "public",
+  "STATIC_MAP_PATH": "dist/static.json",
+  "STATIC_ROUTE": "/static"
+}
